@@ -66,6 +66,10 @@ class Crypt{
     private function error($message){
         echo $message;
     }
+
+    private function initialize(){
+        return mcrypt_generic_init($this->resource, $this->key, $this->iv);
+    }
     
     private function start(){
         $this->resource  = mcrypt_module_open($this->algorithm, '', $this->mode, '');
@@ -73,17 +77,17 @@ class Crypt{
         $this->key       = substr($this->key, 0, $this->key_size);
         $this->iv_size   = mcrypt_enc_get_iv_size($this->resource);
         $this->iv        = mcrypt_create_iv($this->iv_size, MCRYPT_RAND);
-        return mcrypt_generic_init($this->resource, $this->key, $this->iv);
+        return $this->initialize();
     }
     
     public function encrypt($data){
-        mcrypt_generic_init($this->resource, $this->key, $this->iv);
+        $this->initialize();
         $encrypted = mcrypt_generic($this->resource, $data);
         return ($this->base64) ? base64_encode($encrypted) : $encrypted;
     }
     
     public function decrypt($data){
-        mcrypt_generic_init($this->resource, $this->key, $this->iv);
+        $this->initialize();
         $data = ($this->base64) ? base64_decode($data) : $data;
         return mdecrypt_generic($this->resource, $data);
     }
