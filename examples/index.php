@@ -105,7 +105,7 @@
 					<span class="ref"><strong>Input</strong> <em>None</em></span>
 					<span class="ref"><strong>Output</strong> <em>array</em>
 						<pre><span class="const">array</span> of modes supported by php/mcrypt</pre>
-						<pre>same as output from $class->listModes()</pre>
+						<pre>same as output from $class->listModes() &amp mcrypt_list_modes()</pre>
 					</span>
 				</li>
 				<li>
@@ -113,7 +113,7 @@
 					<span class="ref"><strong>Input</strong> <em>None</em></span>
 					<span class="ref"><strong>Output</strong> <em>array</em>
 						<pre><span class="const">array</span> of algorithms supported by php/mcrypt</pre>
-						<pre>same as output from $class->listAlgorithms()</pre>
+						<pre>same as output from $class->listAlgorithms() &amp mcrypt_list_algorithms()</pre>
 					</span>
 				</li>
 			</ul>
@@ -166,7 +166,7 @@
 					<span class="ref"><strong>Input</strong> <em>None</em></span>
 					<span class="ref"><strong>Output</strong> <em>array</em>
 						<pre><span class="const">array</span> of modes supported by php/mcrypt</pre>
-						<pre>same as output from Crypt::modes()</pre>
+						<pre>same as output from Crypt::modes() &amp mcrypt_list_modes()</pre>
 					</span>
 				</li>
 				<li>
@@ -189,7 +189,7 @@
 					<span class="ref"><strong>Input</strong> <em>None</em></span>
 					<span class="ref"><strong>Output</strong> <em>array</em>
 						<pre><span class="const">array</span> of algorithms supported by php/mcrypt</pre>
-						<pre>same as output from Crypt::algorithms()</pre>
+						<pre>same as output from Crypt::algorithms() &amp mcrypt_list_algorithms()</pre>
 					</span>
 				</li>
 				<li>
