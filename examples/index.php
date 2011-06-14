@@ -181,7 +181,7 @@
 					<span class="ref"><strong>Input</strong> <em>string</em></span>
 					<span class="ref"><strong>Output</strong> <em>string</em>
 						<pre><span class="const">string</span> current mode. If setting failed it keeps &amp; returns previous setting.</pre>
-						<pre>Setting must be inside of array provided by $class->listModes() or Crypt::modes()</pre>
+						<pre>Setting must be inside of array provided by $class->listModes() or Crypt::modes() or mcrypt_list_modes()</pre>
 					</span>
 				</li>
 				<li>
@@ -204,12 +204,15 @@
 					<span class="ref"><strong>Input</strong> <em>string</em></span>
 					<span class="ref"><strong>Output</strong> <em>string</em>
 						<pre><span class="const">string</span> current algorithm. If setting failed it keeps &amp; returns previous setting.</pre>
-						<pre>Setting must be inside of array provided by $class->listAlgorithms() or Crypt::algorithms()</pre>
+						<pre>Setting must be inside of array provided by $class->listAlgorithms() or Crypt::algorithms() or mcrypt_list_algorithms()</pre>
 					</span>
 				</li>
 				<li>
 					<span class="func"><em>bool</em> getBase64Encoding()</span>
 					<span class="ref"><strong>Input</strong> <em>None</em></span>
+					<span class="ref"><strong>Output</strong> <em>bool</em>
+						<pre><span class="const">bool</span> current <strong>base64</strong> setting</pre>
+					</span>
 				</li>
 				<li>
 					<span class="func"><em>bool</em> setBase64Encoding(<em>bool</em> <span class="params">$bool</span>)</span>
