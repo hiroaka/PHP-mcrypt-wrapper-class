@@ -24,12 +24,13 @@ class Crypt{
     public function __construct($params){
         # make sure mcrypt is loaded
         if(!extension_loaded('mcrypt')){
-            $this->error('mcrypt extension is required for this script');
+            throw new Exception('mcrypt extension is required for this script');
             return false;
         }
         # make sure key is supplied
-        if(!array_key_exists('key', $params) && $params['key']){
-            $this->error('key is a required parameter. see listOptions()');
+        if(!array_key_exists('key', $params) || !isset($params['key']) || (isset($params['key']) && !$params['key'])){
+            $error = 'key is a required parameter. see Crypt::listOptions()';
+            throw new Exception($error);
             return false;
         }
         # set params
@@ -38,11 +39,11 @@ class Crypt{
         $this->modes = mcrypt_list_modes();
         # check availables
         if(!count($this->algorithms)){
-            $this->error('there are no available algorithms for mcrypt');
+            throw new Exception('there are no available algorithms for mcrypt');
             return false;
         }
         if(!count($this->modes)){
-             $this->error('there are no available modes for mcrypt');
+             throw new Exception('there are no available modes for mcrypt');
              return false;
         }
         # algorithm
@@ -62,10 +63,6 @@ class Crypt{
         }
         
         return $this->start();
-    }
-
-    private function error($message){
-        echo $message;
     }
 
     private function initialize(){
@@ -94,8 +91,12 @@ class Crypt{
     }
     
     public function close(){
-        @mcrypt_generic_deinit($this->resource);
-        @mcrypt_module_close($this->resource);
+        try{
+            mcrypt_generic_deinit($this->resource);
+            mcrypt_module_close($this->resource);
+        }catch(Exception $e){
+
+        }
     }
     
     public function listModes(){
@@ -108,15 +109,6 @@ class Crypt{
     
     public function listKeysize(){
         return $this->key_size;
-    }
-
-    public function listOptions(){
-      $options = "<style>pre{font-size:12px;color: #777;font-family: droid sans mono, monospace;}.key{color:#000;}em{font-style:italic;color:#038;}.required{color:red;}.optional{color:green;}strong{color:#038;}.notes{color:#444;}</style>
-      <pre><span class=\"key\">key</span>        => <em>string</em> - <span class=\"required\">(required)</span> <strong>no default</strong> <span class=\"notes\">resized to fit mode/algorithm</span></pre>
-      <pre><span class=\"key\">mode</span>       => <em>must be a result of mcrypt_list_modes()</em> - <span class=\"optional\">(optional)</span> <strong>default: first result from mcrypt_list_modes()</strong></pre>
-      <pre><span class=\"key\">algorithm</span>  => <em>must be a result of mcrypt_list_algorithms()</em> - <span class=\"optional\">(optional)</span> <strong>default: first result from mcrypt_list_algorithms()</strong></pre>
-      <pre><span class=\"key\">base64</span>     => <em>true|false</em> <span class=\"notes\">sets encoding of input/output to base 64</span> - <span class=\"optional\">(optional)</span> <strong>default: true</strong></pre>";
-      return $options;
     }
     
     public function getMode(){
@@ -148,6 +140,39 @@ class Crypt{
     public function setBase64Encoding($base64){
         $this->base64 = ($base64) ? true : false;
         return $this->base64;
+    }
+    
+
+    public static function listOptions(){
+      $options = "<style>pre{font-size:12px;color: #777;font-family: droid sans mono, monospace;}.key{color:#000;}em{font-style:italic;color:#038;}.required{color:red;}.optional{color:green;}strong{color:#038;font-weight:bold;}.notes{color:#444;}</style>
+      <pre><span class=\"key\">key</span>        => <em>string</em> - <span class=\"required\">(required)</span> <strong>no default</strong> <span class=\"notes\">resized to fit appropriate key size</span></pre>
+      <pre><span class=\"key\">mode</span>       => <em>must be a result of mcrypt_list_modes()</em> - <span class=\"optional\">(optional)</span> <strong>default: first result from mcrypt_list_modes()</strong></pre>
+      <pre><span class=\"key\">algorithm</span>  => <em>must be a result of mcrypt_list_algorithms()</em> - <span class=\"optional\">(optional)</span> <strong>default: first result from mcrypt_list_algorithms()</strong></pre>
+      <pre><span class=\"key\">base64</span>     => <em>true|false</em> <span class=\"notes\">sets encoding of input/output to base 64</span> - <span class=\"optional\">(optional)</span> <strong>default: true</strong></pre>";
+      return $options;
+    }
+
+    public static function modes(){
+        # shorthand static function
+        if(!extension_loaded('mcrypt')){
+            throw new Exception('mcrypt extension is required for this script');
+            return false;
+        }
+        return mcrypt_list_modes();
+    }
+
+    public static function algorithms(){
+        # shorthand static function
+        if(!extension_loaded('mcrypt')){
+            throw new Exception('mcrypt extension is required for this script');
+            return false;
+        }
+        return mcrypt_list_algorithms();
+    }
+
+    public static function extensionLoaded(){
+        # shorthand static function
+        return (extension_loaded('mcrypt')) ? true : false;
     }
 }
 ?>
