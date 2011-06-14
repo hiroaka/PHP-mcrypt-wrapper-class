@@ -12,21 +12,51 @@ class Crypt{
     private $mode;
     private $base64;
     
-    public function __construct($options){
-        (extension_loaded('mcrypt')) || die('mcrypt extension is required for this script');
-        (array_key_exists('key', $options) && $options['key']) || die('key is a required parameter. see listOptions()');
-
-        $this->key        = $options['key'];
+    public function __construct($params){
+        # make sure mcrypt is loaded
+        if(!extension_loaded('mcrypt')){
+            $this->error('mcrypt extension is required for this script');
+            return false;
+        }
+        # make sure key is supplied
+        if(!array_key_exists('key', $params) && $params['key']){
+            $this->error('key is a required parameter. see listOptions()');
+            return false;
+        }
+        # set params
+        $this->key = $params['key'];
         $this->algorithms = mcrypt_list_algorithms();
-        $this->modes      = mcrypt_list_modes();
+        $this->modes = mcrypt_list_modes();
+        # check availables
+        if(!count($this->algorithms)){
+            $this->error('there are no available algorithms for mcrypt');
+            return false;
+        }
+        if(!count($this->modes)){
+             $this->error('there are no available modes for mcrypt');
+             return false;
+        }
+        # algorithm
+        $this->algorithm = $this->algorithms[0];        
+        if(array_key_exists('algorithm', $params) && in_array($params['algorithm'], $this->algorithms)){
+            $this->algorithm  = $params['algorithm'];
+        }
+        # mode
+        $this->mode = $this->modes[0];
+        if(array_key_exists('mode', $params) && in_array($params['mode'], $this->modes)){
+            $this->mode = $params['mode'];
+        }
+        # base 64 encoding
+        $this->base64 = true;
+        if(array_key_exists('base64', $params) && !$params['base64']){
+            $this->base64 = false;
+        }
         
-        (count($this->algorithms)) || die('there are no available algorithms for mcrypt');
-        (count($this->modes)) || die('there are no available modes for mcrypt');
-        
-        $this->algorithm  = (array_key_exists('algorithm', $options) && in_array($options['algorithm'], $this->algorithms)) ? $options['algorithm'] : $this->algorithms[0];
-        $this->mode       = (array_key_exists('mode', $options) && in_array($options['mode'], $this->modes)) ? $options['mode'] : $this->modes[0];
-        $this->base64     = (array_key_exists('base64', $options) && $options['base64'] === false) ? false : true;
         return $this->start();
+    }
+
+    private function error($message){
+        echo $message;
     }
     
     private function start(){
