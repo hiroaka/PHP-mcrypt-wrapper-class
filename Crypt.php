@@ -131,14 +131,14 @@ class Crypt{
     }
     
     public function setMode($mode){
-        $this->mode = (in_array($mode, $this->modes)) ? $mode : $this->modes[0];
+        $this->mode = (in_array($mode, $this->modes)) ? $mode : $this->mode;
         $this->close();
         $this->start();
         return $this->mode;
     }
     
     public function setAlgorithm($algorithm){
-        $this->algorithm = (in_array($algorithm, $this->algorithms)) ? $algorithm : $this->algorithms[0];
+        $this->algorithm = (in_array($algorithm, $this->algorithms)) ? $algorithm : $this->algorithm;
         $this->close();
         $this->start();
         return $this->algorithm;
