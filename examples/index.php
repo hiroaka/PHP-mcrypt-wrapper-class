@@ -73,7 +73,7 @@
 			<pre><span class="sys">echo</span> <span class="var">$crypt</span>-><span class="func">decrypt</span>(<span class="var">$data</span>); <span class="comm"># TOP SECRET blah blah blah</span></pre>
 			<pre><span class="sys">echo</span> <span class="var">$crypt</span>-><span class="func">getMode</span>(); <span class="comm"># ecb</span></pre>
 			<pre><span class="sys">echo</span> <span class="var">$crypt</span>-><span class="func">getAlgorithm</span>(); <span class="comm"># blowfish</span></pre>
-			<pre><span class="sys">echo</span> <span class="var">$crypt</span>-><span class="func">getBase64Encoding</span>(); <span class="comm"># 0</span></pre>
+			<pre><span class="sys">echo</span> <span class="var">$crypt</span>-><span class="func">getBase64Encoding</span>(); <span class="comm"># 1</span></pre>
 			<pre><span class="var">$crypt</span>-><span class="func">close</span>(); <span class="comm"># Close</span></pre>
 		</div>
 
