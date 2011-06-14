@@ -62,10 +62,10 @@
 		<div class="section">
 			<pre><span class="sys">require(</span><span class="str">'../Crypt.php'</span><span class="sys">)</span>	;</pre>
 			<pre><span class="var">$options</span> = <span class="cons">array</span><span class="cons">(</span>
-	<span class="str">'key'</span>       <span class="cons">=></span> <span class="str">'herp derp gerp lerp'</span>,
-	<span class="str">'mode'</span>      <span class="cons">=></span> <span class="str">'ecb'</span>,
-	<span class="str">'algorithm'</span> <span class="cons">=></span> <span class="str">'blowfish'</span>,
-	<span class="str">'base64'</span>    <span class="cons">=></span> <span class="const">true</span> <span class="comm"># default</span>
+	<span class="str">'key'</span>       <span class="cons">=></span> <span class="str">'herp derp gerp lerp'</span>, <span class="comm"># required</span>
+	<span class="str">'mode'</span>      <span class="cons">=></span> <span class="str">'ecb'</span>,                 <span class="comm"># optional</span>
+	<span class="str">'algorithm'</span> <span class="cons">=></span> <span class="str">'blowfish'</span>,            <span class="comm"># optional</span>
+	<span class="str">'base64'</span>    <span class="cons">=></span> <span class="const">true</span>                   <span class="comm"># optional default</span>
 <span class="cons">)</span>;</pre>
 			<pre><span class="var">$crypt</span> = <span class="sys">new</span> <span class="func">Crypt</span>(<span class="var">$options</span>);</pre>
 			<pre><span class="var">$data</span> = <span class="var">$crypt</span>-><span class="func">encrypt</span>(<span class="str">'TOP SECRET blah blah blah'</span>);</pre>
@@ -263,13 +263,14 @@ p{font-size:16px;line-height:20px;margin-bottom:10px;color:#555;}
 #footer{position:absolute;bottom:0;right:10px;font-size:12px;margin:0;}
 #footer a{color:#555;}
 #footer a:hover{color:#0d0;}
+li{background:#fff;}
 li span,.code, pre, pre span{font-family:Droid Sans Mono, monospace;color:#777;font-size:13px;line-height:20px;}
 li span{}
 li span.func{font-weight:bold;display:block;}
 li span.params{color:#06f;font-weight:inherit;}
 li span.ref{padding:4px;border:1px #ddd solid;background:#f7f7f7;margin:4px 0;display:block;}
 li span.ref strong{color:inherit;}
-li{padding:4px;border:1px #ddd solid;margin:0 0 8px 0;}
+li{padding:8px;margin:0 0 10px 0;}
 .sys{color:#920;}
 .var{color:#06f;}
 .str{color:#d20;}
