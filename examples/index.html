@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Title</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="shortcut icon" type="image/x-icon" href="http://www.grgr.us/image?d=16&t=gr" />
+<style>
+/* reset */
+html, body, div, span, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,abbr, address, cite, code,del, dfn, em, img, ins, kbd, q, samp,small, strong, sub, sup, var,b, i,dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th, td,article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary,time, mark, audio, vide {margin: 0;padding: 0;border: 0;outline: 0;text-decoration: none;font-style: normal;font-weight: normal;font-size: 100%;vertical-align: baseline;background: transparent;font-family:Helvetica, Arial, sans-serif;
+color:#222;}
+input,select{font-family:Helvetica, Arial, sans-serif;}
+body, html{width:100%;height:100%;background:#fcfcfc;}
+article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary { 
+display:block;}
+nav ul{list-style:none;}
+body {line-height: 1; font-size: 10px; font-family: Helvetica,Arial,sans-serif;}
+ol,ul {list-style: none;}
+blockquote,q {quotes: none;}
+blockquote:before,blockquote:after,q:before,q:after {content: ''; content: none;}
+input:focus {outline: 1px #f20 solid;background-color: #ddd;border:0;}
+#info input:focus{outline:0;background:#fff;}
+ins {text-decoration: none; background-color: yellow;}
+del {text-decoration: line-through;}
+table {border-collapse: collapse; border-spacing: 0;}
+a,a:link,a:visited,a:hover,a:active,a:focus{cursor:pointer;text-decoration:none;}
+/* styles */
+#wrapper{
+margin: 0 auto;
+position:relative;
+width:1000px;
+padding:20px;
+}
+h1{
+font-size:24px;
+margin-bottom:12px;
+}
+h2{
+font-size:20px;
+color:#555;
+margin-bottom:10px;
+}
+h2 a{
+color:#777;
+}
+h2 a:hover{
+color:#0d0;
+}
+li{
+font-size:18px;
+margin-bottom:8px;
+}
+p{
+font-size:16px;
+line-height:20px;
+margin-bottom:10px;
+color:#555;
+}
+li p{
+color:#777;
+font-size:14px;
+margin-bottom:0px;
+margin-left:4px;
+display:inline
+}
+li a{
+color:#06f;
+}
+li a:hover{
+color:#d20;
+}
+#header{
+margin-bottom:20px;
+}
+#content{
+padding:20px 0;
+border-top:1px #ddd solid;
+}
+#footer{
+position:absolute;
+bottom:0;
+right:10px;
+font-size:12px;
+margin:0;
+}
+#footer a{
+color:#555;
+}
+#footer a:hover{
+color:#0d0;
+}
+pre,
+pre span{
+font-family:Droid Sans Mono, monospace;
+color:#777;
+font-size:14px;
+line-height:20px;
+}
+.sys{
+color:#920;
+}
+.var{
+color:#06f;
+}
+.str{
+color:#d20;
+}
+.func{
+color:black;
+}
+.cons{
+color:#092;
+}
+.comm{
+font-style:italic;
+color:#444;
+}
+.const{
+color:#111;
+}
+.section{
+margin-bottom:20px;
+width:980px;
+overflow:auto;
+padding:10px;
+background:#f3f3f3;
+}
+</style>
+</head>
+<body>
+<div id="wrapper">
+	<div id="header">
+		<h1>Crypt Class Examples</h1>
+	</div>
+	<div id="content">
+		<h2>Simple Usage</h2>
+		<div class="section">
+			<pre><span class="sys">require(</span><span class="str">'../Crypt.php'</span><span class="sys">)</span>	;</pre>
+			<pre><span class="var">$crypt</span> = <span class="sys">new</span> <span class="func">Crypt</span>(<span class="cons">array</span><span class="cons">(</span><span class="str">'key'</span> <span class="cons">=></span> <span class="str">'herp derp gerp lerp'</span><span class="cons">)</span>);</pre>
+			<pre><span class="var">$data</span> = <span class="var">$crypt</span>-><span class="func">encrypt</span>(<span class="str">'TOP SECRET blah blah blah'</span>);</pre>
+			<pre><span class="sys">echo</span> <span class="var">$data</span>; <span class="comm"># /kPFdNSmMr8CnmT0BcRyz+7HFWLaWL2VS0GElBHQKtM=</span></pre>
+			<pre><span class="sys">echo</span> <span class="var">$crypt</span>-><span class="func">decrypt</span>(<span class="var">$data</span>); <span class="comm"># TOP SECRET blah blah blah</span></pre>
+		</div>
+		<h2>Advanced Usage</h2>
+		<div class="section">
+			<pre><span class="sys">require(</span><span class="str">'../Crypt.php'</span><span class="sys">)</span>;</pre>
+			<pre><span class="var">$options</span> = <span class="cons">array</span><span class="cons">(</span>
+	<span class="str">'key'</span>       <span class="cons">=></span> <span class="str">'herp derp gerp lerp'</span>,
+	<span class="str">'mode'</span>      <span class="cons">=></span> <span class="str">'ofb'</span>,
+	<span class="str">'algorithm'</span> <span class="cons">=></span> <span class="str">'blowfish'</span>,
+	<span class="str">'base64'</span>    <span class="cons">=></span> <span class="const">false</span>,
+<span class="cons">)</span>;</pre>
+			<pre><span class="var">$crypt</span> = <span class="sys">new</span> <span class="func">Crypt</span>(<span class="var">$options</span>);</pre>
+			<pre><span class="sys">print_r(</span><span class="var">$crypt</span>-><span class="func">listModes</span>()<span class="sys">)</span>; <span class="comm"># Array ( [0] => cbc [1] => cfb [2] => ctr [3] => ecb [4] => ncfb [5] => nofb [6] => ofb [7] => stream ) </span></pre>
+			<pre><span class="sys">print_r(</span><span class="var">$crypt</span>-><span class="func">listAlgorithms</span>()<span class="sys">)</span>; <span class="comm"># Array ( [0] => cast-128 [1] => gost [2] => rijndael-128 [3] => twofish [4] => arcfour [5] => cast-256 [6] => loki97 [7] => rijndael-192 [8] => saferplus [9] => wake [10] => blowfish-compat [11] => des [12] => rijndael-256 [13] => serpent [14] => xtea [15] => blowfish [16] => enigma [17] => rc2 [18] => tripledes ) </span></pre>
+			<pre><span class="sys">echo</span> <span class="var">$crypt</span>-><span class="func">getMode</span>(); <span class="comm"># ofb</span></pre>
+			<pre><span class="sys">echo</span> <span class="var">$crypt</span>-><span class="func">getAlgorithm</span>(); <span class="comm"># blowfish</span></pre>
+			<pre><span class="sys">echo</span> <span class="var">$crypt</span>-><span class="func">setMode</span>(<span class="str">'cfb'</span>); <span class="comm"># cfb</span></pre>
+			<pre><span class="sys">echo</span> <span class="var">$crypt</span>-><span class="func">setAlgorithm</span>(<span class="str">'rijndael-256'</span>); <span class="comm"># rijndael-256</span></pre>
+			<pre><span class="sys">echo</span> <span class="var">$crypt</span>-><span class="func">getBase64Encoding</span>(); <span class="comm"># 0</span></pre>
+			<pre><span class="sys">echo</span> <span class="var">$crypt</span>-><span class="func">encrypt</span>(<span class="str">'TOP SECRET blah blah blah'</span>); <span class="comm"># ����㪲�&�gٙd� ��1����#4 H=</span></pre>
+			<pre><span class="sys">echo</span> <span class="var">$crypt</span>-><span class="func">setBase64Encoding</span>(<span class="const">true</span>); <span class="comm"># 1</span></pre>
+			<pre><span class="sys">echo</span> <span class="var">$crypt</span>-><span class="func">encrypt</span>(<span class="str">'TOP SECRET blah blah blah'</span>); <span class="comm"># yyoQXZa5OvgRbZqJHxhbwaavF+ePqiELaB3SloKp48A=</span></pre>
+			</span></pre>
+		</div>
+	</div>
+	<p id="footer">&copy; 2011 <a href="http://www.grgrssll.com">grgrssll.com</a> Seattle USA</p>
+</div>	
