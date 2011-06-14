@@ -12,6 +12,9 @@ class Crypt{
     private $base64 = true;
     
     public function __construct($options){
+        if(!extension_loaded('mcrypt')){ die('mcrypt is required for this script'); }
+        if(!count(mcrypt_list_algorithms())){ die('there are no available algorithms'); }
+        if(!count(mcrypt_list_modes())){ die('there are no available modes'); }
         if(!array_key_exists('key', $options)){
             die('- You Must Submit a Key - <pre>$crypt = new Crypt(array(\'key\' => \'this is my key...\'));</pre>');
         }
