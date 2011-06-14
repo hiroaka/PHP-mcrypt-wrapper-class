@@ -24,7 +24,7 @@ class Crypt{
         $this->mode = (isset($options['mode']) && in_array($options['mode'], $this->modes)) ? $options['mode'] : $this->modes[0];
         $this->key = $options['key'];
         if(isset($options['base64']) && $options['base64'] === false){
-         $this->base64 = false;
+            $this->base64 = false;
         }
         return $this->start();
     }
