@@ -1,3 +1,24 @@
+<?php
+
+require('../Crypt.php');
+$key = 'Blah BLah blahdskdflk';
+$c = new Crypt(array('key' => $key, 'mode' => 'ecb', 'algorithm' => 'blowfish'));
+$stats = null;
+if($c){
+	if(strtolower($_SERVER['REQUEST_METHOD']) == 'post'){
+		if(isset($_POST['encrypt']) && $_POST['encrypt']){
+			$encrypted = $c->encrypt($_POST['encrypt']);
+			$stats = 'Encrypted';
+		}
+		if(isset($_POST['decrypt']) && $_POST['decrypt']){
+		    $decrypted = $c->decrypt($_POST['decrypt']);
+			$stats = 'Decrypted';
+		}
+ 	  	$stats .= ' using '.$c->getMode().' '.$c->getAlgorithm();
+	}
+    $c->close();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -114,7 +135,7 @@ color:#092;
 }
 .comm{
 font-style:italic;
-color:#444;
+color:#777;
 }
 .const{
 color:#111;
@@ -126,6 +147,63 @@ overflow:auto;
 padding:10px;
 background:#f3f3f3;
 }
+
+.element{
+overflow:hidden;
+margin-bottom:10px;
+padding:1px 0;
+}
+.element label{
+width:70px;
+display:block;
+color:#777;
+font-size:16px;
+float:left;
+margin-top:5px;
+}
+.element input{
+display:block;
+color:#777;
+background:#fff;
+font-size:14px;
+font-family:droid sans mono, monospace;
+float:left;
+border:1px #ccc solid;
+padding:4px;
+width:400px;
+}
+.element p{
+margin:0 0 10px 10px;
+color:#092;
+padding:2px 4px;
+border:1px #ccc solid;
+background:#f7f7f7;
+font-size:12px;
+font-family:droid sans mono, monospace;
+float:left;
+}
+.submit input{
+border:1px #bbb solid;
+color:#555;
+text-shadow:#eee 1px 1px 1px;
+font-family:helvetica, arial, sans-serif;
+font-size:14px;
+display:block;
+-border-radius:3px;
+-webkit-border-radius:3px;
+-moz-border-radius:3px;
+cursor:pointer;
+padding:4px 8px 2px 8px;
+background:#ccc;
+background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#ccc));
+background: -moz-linear-gradient(top,  #eee,  #ccc); 
+}
+.submit input:hover{
+color:#111;
+background:#777;
+background: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#eee));
+background: -moz-linear-gradient(top,  #ccc,  #eee); 
+}
 </style>
 </head>
 <body>
@@ -134,6 +212,25 @@ background:#f3f3f3;
 		<h1>Crypt Class Examples</h1>
 	</div>
 	<div id="content">
+		<h2>Example</h2>
+		<div class="section">
+			<form method="post">
+				<?php
+				echo ($stats) ? '<p class="stats">'.$stats.'</p>' : '';
+				?>
+				<div class="element">
+					<label for="encrypt">Encrypt</label><input type="text" id="encrypt" name="encrypt"/>
+					<?php echo (isset($encrypted) && $encrypted) ? '<p>'.$encrypted.'</p>' : '';?>
+				</div>
+				<div class="element">
+					<label for="decrypt">Decrypt</label><input type="text" id="decrypt" name="decrypt"/>
+					<?php echo (isset($decrypted) && $decrypted) ? '<p>'.$decrypted.'</p>' : '';?>
+				</div>
+				<div class="submit">
+					<input type="submit" value="Go"/>
+				</div>
+			</form>
+		</div>
 		<h2>Simple Usage</h2>
 		<div class="section">
 			<pre><span class="sys">require(</span><span class="str">'../Crypt.php'</span><span class="sys">)</span>	;</pre>
@@ -152,8 +249,8 @@ background:#f3f3f3;
 	<span class="str">'base64'</span>    <span class="cons">=></span> <span class="const">false</span>,
 <span class="cons">)</span>;</pre>
 			<pre><span class="var">$crypt</span> = <span class="sys">new</span> <span class="func">Crypt</span>(<span class="var">$options</span>);</pre>
-			<pre><span class="sys">print_r(</span><span class="var">$crypt</span>-><span class="func">listModes</span>()<span class="sys">)</span>; <span class="comm"># Array ( [0] => cbc [1] => cfb [2] => ctr [3] => ecb [4] => ncfb [5] => nofb [6] => ofb [7] => stream ) </span></pre>
-			<pre><span class="sys">print_r(</span><span class="var">$crypt</span>-><span class="func">listAlgorithms</span>()<span class="sys">)</span>; <span class="comm"># Array ( [0] => cast-128 [1] => gost [2] => rijndael-128 [3] => twofish [4] => arcfour [5] => cast-256 [6] => loki97 [7] => rijndael-192 [8] => saferplus [9] => wake [10] => blowfish-compat [11] => des [12] => rijndael-256 [13] => serpent [14] => xtea [15] => blowfish [16] => enigma [17] => rc2 [18] => tripledes ) </span></pre>
+			<pre><span class="sys">print_r(</span><span class="var">$crypt</span>-><span class="func">listModes</span>()<span class="sys">)</span>; <span class="comm"># Array ( [0] => cbc [1] => cfb [2] => ctr [3] => ecb... </span></pre>
+			<pre><span class="sys">print_r(</span><span class="var">$crypt</span>-><span class="func">listAlgorithms</span>()<span class="sys">)</span>; <span class="comm"># Array ( [0] => cast-128 [1] => gost [2] => rijndael-128 [3] => twofish... </span></pre>
 			<pre><span class="sys">echo</span> <span class="var">$crypt</span>-><span class="func">getMode</span>(); <span class="comm"># ofb</span></pre>
 			<pre><span class="sys">echo</span> <span class="var">$crypt</span>-><span class="func">getAlgorithm</span>(); <span class="comm"># blowfish</span></pre>
 			<pre><span class="sys">echo</span> <span class="var">$crypt</span>-><span class="func">setMode</span>(<span class="str">'not valid mode'</span>); <span class="comm"># ofb</span></pre>
