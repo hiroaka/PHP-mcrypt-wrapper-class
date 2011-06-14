@@ -2,6 +2,7 @@
 class Crypt{
     
     private $key;
+    private $keysize;
     private $resource;
     private $iv_size;
     private $iv;
@@ -31,7 +32,8 @@ class Crypt{
     
     private function start(){
         $this->resource = mcrypt_module_open($this->algorithm, '', $this->mode, '');
-        $this->key = substr($this->key, 0, mcrypt_enc_get_key_size($this->resource));
+        $this->keysize = mcrypt_enc_get_key_size($this->resource);
+        $this->key = substr($this->key, 0, $this->keysize);
         $this->iv_size = mcrypt_enc_get_iv_size($this->resource);
         $this->iv = mcrypt_create_iv($this->iv_size, MCRYPT_RAND);
         return mcrypt_generic_init($this->resource, $this->key, $this->iv);
@@ -68,6 +70,19 @@ class Crypt{
     
     public function listAlgorithms(){
         return $this->algorithms;
+    }
+    
+    public function listKeysize(){
+        return $this->keysize;
+    }
+
+    public function listOptions(){
+      $options = "<style>pre{font-size:14px;color: #777;font-family: droid sans mono, monospace;}.key{color:#000;}em{font-style:italic;color:#038;}.required{color:red;}.optional{color:green;}strong{color:#038;}.notes{color:#444;}</style>
+      <pre><span class=\"key\">key</span>        => <em>string</em> - <span class=\"required\">(required)</span> <strong>no default</strong> <span class=\"notes\">resized to fit mode/algorithm</span></pre>
+      <pre><span class=\"key\">mode</span>       => <em>must be a result of mcrypt_list_modes()</em> - <span class=\"optional\">(optional)</span> <strong>default: first result from mcrypt_list_modes()</strong></pre>
+      <pre><span class=\"key\">algorithm</span>  => <em>must be a result of mcrypt_list_algorithms()</em> - <span class=\"optional\">(optional)</span> <strong>default: first result from mcrypt_list_algorithms()</strong></pre>
+      <pre><span class=\"key\">base64</span>     => <em>true|false</em> <span class=\"notes\">sets encoding of input/output to base 64</span> - <span class=\"optional\">(optional)</span> <strong>default: true</strong></pre>";
+      return $options;
     }
     
     public function getMode(){
