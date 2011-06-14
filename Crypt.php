@@ -9,6 +9,7 @@ class Crypt{
     private $algorithm;
     private $modes;
     private $mode;
+    private $base64 = true;
     
     public function __construct($options){
         if(!array_key_exists('key', $options)){
@@ -19,6 +20,9 @@ class Crypt{
         $this->modes = mcrypt_list_modes();
         $this->mode = (isset($options['mode']) && in_array($options['mode'], $this->modes)) ? $options['mode'] : $this->modes[0];
         $this->key = $options['key'];
+        if(isset($options['base64']) && $options['base64'] === false){
+         $this->base64 = false;
+        }
         return $this->start();
     }
     
@@ -32,12 +36,22 @@ class Crypt{
     
     public function encrypt($data){
         mcrypt_generic_init($this->resource, $this->key, $this->iv);
-        return base64_encode(mcrypt_generic($this->resource, $data));
+        if($this->base64){
+            $encrypted = base64_encode(mcrypt_generic($this->resource, $data));
+        }else{
+            $encrypted = mcrypt_generic($this->resource, $data);
+        }
+        return $encrypted;
     }
     
     public function decrypt($data){
         mcrypt_generic_init($this->resource, $this->key, $this->iv);
-        return mdecrypt_generic($this->resource, base64_decode($data));
+        if($this->base64){
+            $decrypted = mdecrypt_generic($this->resource, base64_decode($data));
+        }else{
+            $decrypted = mdecrypt_generic($this->resource, $data);
+        }
+        return $decrypted;
     }
     
     public function close(){
@@ -60,6 +74,10 @@ class Crypt{
     public function getAlgorithm(){
         return $this->algorithm;
     }
+
+    public function getBase64Encoding(){
+      return $this->base64;
+    }
     
     public function setMode($mode){
         $this->mode = (in_array($mode, $this->modes)) ? $mode : $this->modes[0];
@@ -73,6 +91,11 @@ class Crypt{
         $this->close();
         $this->start();
         return $this->algorithm;
+    }
+
+    public function setBase64Encoding($base64){
+      $this->base64 = ($base64) ? true : false;
+      return $this->base64;
     }
 }
 ?>
