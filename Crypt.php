@@ -77,7 +77,7 @@ class Crypt{
     }
 
     public function listOptions(){
-      $options = "<style>pre{font-size:14px;color: #777;font-family: droid sans mono, monospace;}.key{color:#000;}em{font-style:italic;color:#038;}.required{color:red;}.optional{color:green;}strong{color:#038;}.notes{color:#444;}</style>
+      $options = "<style>pre{font-size:12px;color: #777;font-family: droid sans mono, monospace;}.key{color:#000;}em{font-style:italic;color:#038;}.required{color:red;}.optional{color:green;}strong{color:#038;}.notes{color:#444;}</style>
       <pre><span class=\"key\">key</span>        => <em>string</em> - <span class=\"required\">(required)</span> <strong>no default</strong> <span class=\"notes\">resized to fit mode/algorithm</span></pre>
       <pre><span class=\"key\">mode</span>       => <em>must be a result of mcrypt_list_modes()</em> - <span class=\"optional\">(optional)</span> <strong>default: first result from mcrypt_list_modes()</strong></pre>
       <pre><span class=\"key\">algorithm</span>  => <em>must be a result of mcrypt_list_algorithms()</em> - <span class=\"optional\">(optional)</span> <strong>default: first result from mcrypt_list_algorithms()</strong></pre>
