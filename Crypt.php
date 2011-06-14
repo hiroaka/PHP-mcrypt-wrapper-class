@@ -1,4 +1,12 @@
 <?php
+/*
+* Developer : Greg Russell (grgrssll@gmail.com)
+* Date : 06/13/2011
+*
+* Script: Crypt.php
+* Description: wrapper for php's mcrypt functions
+*
+*/
 class Crypt{
     
     private $key;
