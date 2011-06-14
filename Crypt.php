@@ -11,6 +11,7 @@ class Crypt{
     
     private $key;
     private $key_size;
+    private $raw_key;
     private $resource;
     private $iv_size;
     private $iv;
@@ -32,7 +33,7 @@ class Crypt{
             return false;
         }
         # set params
-        $this->key = $params['key'];
+        $this->raw_key = $params['key'];
         $this->algorithms = mcrypt_list_algorithms();
         $this->modes = mcrypt_list_modes();
         # check availables
@@ -74,7 +75,7 @@ class Crypt{
     private function start(){
         $this->resource  = mcrypt_module_open($this->algorithm, '', $this->mode, '');
         $this->key_size  = mcrypt_enc_get_key_size($this->resource);
-        $this->key       = substr($this->key, 0, $this->key_size);
+        $this->key       = substr($this->raw_key, 0, $this->key_size);
         $this->iv_size   = mcrypt_enc_get_iv_size($this->resource);
         $this->iv        = mcrypt_create_iv($this->iv_size, MCRYPT_RAND);
         return $this->initialize();
