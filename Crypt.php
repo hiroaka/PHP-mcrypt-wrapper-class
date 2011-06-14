@@ -2,7 +2,7 @@
 class Crypt{
     
     private $key;
-    private $keysize;
+    private $key_size;
     private $resource;
     private $iv_size;
     private $iv;
@@ -10,53 +10,44 @@ class Crypt{
     private $algorithm;
     private $modes;
     private $mode;
-    private $base64 = true;
+    private $base64;
     
     public function __construct($options){
-        if(!extension_loaded('mcrypt')){ die('mcrypt is required for this script'); }
-        if(!count(mcrypt_list_algorithms())){ die('there are no available algorithms'); }
-        if(!count(mcrypt_list_modes())){ die('there are no available modes'); }
-        if(!array_key_exists('key', $options)){
-            die('- You Must Submit a Key - <pre>$crypt = new Crypt(array(\'key\' => \'this is my key...\'));</pre>');
-        }
+        (extension_loaded('mcrypt')) || die('mcrypt extension is required for this script');
+        (array_key_exists('key', $options) && $options['key']) || die('key is a required parameter. see listOptions()');
+
+        $this->key        = $options['key'];
         $this->algorithms = mcrypt_list_algorithms();
-        $this->algorithm = (isset($options['algorithm']) && in_array($options['algorithm'], $this->algorithms)) ? $options['algorithm'] : $this->algorithms[0];
-        $this->modes = mcrypt_list_modes();
-        $this->mode = (isset($options['mode']) && in_array($options['mode'], $this->modes)) ? $options['mode'] : $this->modes[0];
-        $this->key = $options['key'];
-        if(isset($options['base64']) && $options['base64'] === false){
-            $this->base64 = false;
-        }
+        $this->modes      = mcrypt_list_modes();
+        
+        (count($this->algorithms)) || die('there are no available algorithms for mcrypt');
+        (count($this->modes)) || die('there are no available modes for mcrypt');
+        
+        $this->algorithm  = (array_key_exists('algorithm', $options) && in_array($options['algorithm'], $this->algorithms)) ? $options['algorithm'] : $this->algorithms[0];
+        $this->mode       = (array_key_exists('mode', $options) && in_array($options['mode'], $this->modes)) ? $options['mode'] : $this->modes[0];
+        $this->base64     = (array_key_exists('base64', $options) && $options['base64'] === false) ? false : true;
         return $this->start();
     }
     
     private function start(){
-        $this->resource = mcrypt_module_open($this->algorithm, '', $this->mode, '');
-        $this->keysize = mcrypt_enc_get_key_size($this->resource);
-        $this->key = substr($this->key, 0, $this->keysize);
-        $this->iv_size = mcrypt_enc_get_iv_size($this->resource);
-        $this->iv = mcrypt_create_iv($this->iv_size, MCRYPT_RAND);
+        $this->resource  = mcrypt_module_open($this->algorithm, '', $this->mode, '');
+        $this->key_size  = mcrypt_enc_get_key_size($this->resource);
+        $this->key       = substr($this->key, 0, $this->key_size);
+        $this->iv_size   = mcrypt_enc_get_iv_size($this->resource);
+        $this->iv        = mcrypt_create_iv($this->iv_size, MCRYPT_RAND);
         return mcrypt_generic_init($this->resource, $this->key, $this->iv);
     }
     
     public function encrypt($data){
         mcrypt_generic_init($this->resource, $this->key, $this->iv);
-        if($this->base64){
-            $encrypted = base64_encode(mcrypt_generic($this->resource, $data));
-        }else{
-            $encrypted = mcrypt_generic($this->resource, $data);
-        }
-        return $encrypted;
+        $encrypted = mcrypt_generic($this->resource, $data);
+        return ($this->base64) ? base64_encode($encrypted) : $encrypted;
     }
     
     public function decrypt($data){
         mcrypt_generic_init($this->resource, $this->key, $this->iv);
-        if($this->base64){
-            $decrypted = mdecrypt_generic($this->resource, base64_decode($data));
-        }else{
-            $decrypted = mdecrypt_generic($this->resource, $data);
-        }
-        return $decrypted;
+        $data = ($this->base64) ? base64_decode($data) : $data;
+        return mdecrypt_generic($this->resource, $data);
     }
     
     public function close(){
@@ -73,7 +64,7 @@ class Crypt{
     }
     
     public function listKeysize(){
-        return $this->keysize;
+        return $this->key_size;
     }
 
     public function listOptions(){
@@ -94,7 +85,7 @@ class Crypt{
     }
 
     public function getBase64Encoding(){
-      return $this->base64;
+        return $this->base64;
     }
     
     public function setMode($mode){
@@ -112,8 +103,8 @@ class Crypt{
     }
 
     public function setBase64Encoding($base64){
-      $this->base64 = ($base64) ? true : false;
-      return $this->base64;
+        $this->base64 = ($base64) ? true : false;
+        return $this->base64;
     }
 }
 ?>
