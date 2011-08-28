@@ -37,111 +37,40 @@
 
 ##Static Methods##
 
-    int Crypt::extensionLoaded() Input None Output bool
+    __bool__ Crypt::extensionLoaded() 
 
-    true if mcrypt extension is loaded
+    __array__ Crypt::listOptions()
 
-    false if mcrypt extension is not loaded
+    __array__ Crypt::modes()
 
-    array Crypt::listOptions() Input None Output string
+    __array__ Crypt::algorithms()
 
-    Outputs a list of options for the constructor
-
-    array Crypt::modes() Input None Output array
-
-    array of modes supported by php/mcrypt
-
-    same as output from $class->listModes() & mcrypt_list_modes()
-
-    array Crypt::algorithms() Input None Output array
-
-    array of algorithms supported by php/mcrypt
-
-    same as output from $class->listAlgorithms() & mcrypt_list_algorithms()
 
 ##Methods##
 
-    bool __construct(array $params) Input array
+    __bool__ __construct(array $params) 
+    
+    __string__ encrypt(string $data)
+    
+    __string__ decrypt(string $data)
 
-    key        => string - (required) no default resized to fit appropriate key size
+    __void__ close()
 
-    mode       => must be a result of mcrypt_list_modes() - (optional) default: first result from mcrypt_list_modes()
+    __array__ listModes()
+    
+    __string__ getMode()
 
-    algorithm  => must be a result of mcrypt_list_algorithms() - (optional) default: first result from mcrypt_list_algorithms()
+    __string__ setMode(string $mode)
 
-    base64     => true|false sets encoding of input/output to base 64 - (optional) default: true
+    __array__ listAlgorithms()
 
-    Output bool
+    __string__ getAlgorithm()
 
-    true on success of mcrypt_generic_init()
+    __string__ setAlgorithm(string $algorithm)
 
-    false on fail of mcrypt_generic_init()
+    __bool__ getBase64Encoding()
 
-    die on no extension, modes, algorithms loaded or on lack of key param
+    __bool__ setBase64Encoding(bool $bool)
 
-    string encrypt(string $data) Input string
-
-    plain text
-
-    Output string
-
-    encrypted string if base64 is false
-
-    base64_encoded encrypted string if base64 is true
-
-    string decrypt(string $data) Input string
-
-    encrypted string if base64 is false
-
-    base64_encoded encrypted string if base64 is true
-
-    Output string
-
-    plain text
-
-    void close() Input None Output None
-    array listModes() Input None Output array
-
-    array of modes supported by php/mcrypt
-
-    same as output from Crypt::modes() & mcrypt_list_modes()
-
-    string getMode() Input None Output string
-
-    string current mode
-
-    string setMode(string $mode) Input string Output string
-
-    string current mode. If setting failed it keeps & returns previous setting.
-
-    Setting must be inside of array provided by $class->listModes() or Crypt::modes() or mcrypt_list_modes()
-
-    array listAlgorithms() Input None Output array
-
-    array of algorithms supported by php/mcrypt
-
-    same as output from Crypt::algorithms() & mcrypt_list_algorithms()
-
-    string getAlgorithm() Input None Output string
-
-    string current algorithm
-
-    string setAlgorithm(string $algorithm) Input string Output string
-
-    string current algorithm. If setting failed it keeps & returns previous setting.
-
-    Setting must be inside of array provided by $class->listAlgorithms() or Crypt::algorithms() or mcrypt_list_algorithms()
-
-    bool getBase64Encoding() Input None Output bool
-
-    bool current base64 setting
-
-    bool setBase64Encoding(bool $bool) Input Output bool
-
-    bool current base64 setting (default === true)
-
-    int listKeySize() Input None Output int
-
-    int key size for mode/algorithm combination
-
+    __int__ listKeySize()
 
