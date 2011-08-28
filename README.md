@@ -10,12 +10,19 @@
     );
 
     $crypt = new Crypt($options);
+
     $data = $crypt->encrypt('TOP SECRET blah blah blah');
+
     echo $data; # 13Tt9Omi1uDsWlraXzuHUW6i2O1cySZ6U5dOO7FatCI= 
+
     echo $crypt->decrypt($data); # TOP SECRET blah blah blah
+
     echo $crypt->getMode(); # ecb
+
     echo $crypt->getAlgorithm(); # blowfish
+
     echo $crypt->getBase64Encoding(); # 1
+
     $crypt->close(); # Close
 
 ##Options##
@@ -38,7 +45,7 @@ __array__ `Crypt::algorithms()`
 
 ##Methods##
 
-__bool__ `__construct(array $params)`
+**bool** `__construct(array $params)`
     
 __string__ `encrypt(string $data)`
     
