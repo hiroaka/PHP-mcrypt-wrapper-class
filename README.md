@@ -4,25 +4,18 @@
 
     $options = array(
         'key'       => 'herp derp gerp lerp', # required
-	      'mode'      => 'ecb',                 # optional
-	      'algorithm' => 'blowfish',            # optional
-	      'base64'    => true                   # optional default
+	    'mode'      => 'ecb',                 # optional
+	    'algorithm' => 'blowfish',            # optional
+	    'base64'    => true                   # optional default
     );
 
     $crypt = new Crypt($options);
-
     $data = $crypt->encrypt('TOP SECRET blah blah blah');
-
     echo $data; # 13Tt9Omi1uDsWlraXzuHUW6i2O1cySZ6U5dOO7FatCI= 
-
     echo $crypt->decrypt($data); # TOP SECRET blah blah blah
-
     echo $crypt->getMode(); # ecb
-
     echo $crypt->getAlgorithm(); # blowfish
-
     echo $crypt->getBase64Encoding(); # 1
-
     $crypt->close(); # Close
 
 ##Options##
