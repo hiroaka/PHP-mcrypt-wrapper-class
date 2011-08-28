@@ -45,7 +45,7 @@ __array__ `Crypt::algorithms()`
 
 ##Methods##
 
-**bool** `__construct(array $params)`
+__bool__ `__construct(array $params)`
     
 __string__ `encrypt(string $data)`
     
