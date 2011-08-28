@@ -28,49 +28,46 @@
 ##Options##
 
     key        => string - (required) no default resized to fit appropriate key size
-
     mode       => must be a result of mcrypt_list_modes() - (optional) default: first result from mcrypt_list_modes()
-
     algorithm  => must be a result of mcrypt_list_algorithms() - (optional) default: first result from mcrypt_list_algorithms()
-
     base64     => bool sets encoding of input/output to base 64 - (optional) default: true
 
 ##Static Methods##
 
-    __bool__ Crypt::extensionLoaded() 
+__bool__ `Crypt::extensionLoaded()`
 
-    __array__ Crypt::listOptions()
+__array__ `Crypt::listOptions()`
 
-    __array__ Crypt::modes()
+__array__ `Crypt::modes()`
 
-    __array__ Crypt::algorithms()
+__array__ `Crypt::algorithms()`
 
 
 ##Methods##
 
-    __bool__ __construct(array $params) 
+__bool__ `__construct(array $params)`
     
-    __string__ encrypt(string $data)
+__string__ `encrypt(string $data)`
     
-    __string__ decrypt(string $data)
+__string__ `decrypt(string $data)`
 
-    __void__ close()
+__void__ `close()`
 
-    __array__ listModes()
+__array__ `listModes()`
     
-    __string__ getMode()
+__string__ `getMode()`
 
-    __string__ setMode(string $mode)
+__string__ `setMode(string $mode)`
 
-    __array__ listAlgorithms()
+__array__ `listAlgorithms()`
 
-    __string__ getAlgorithm()
+__string__ `getAlgorithm()`
 
-    __string__ setAlgorithm(string $algorithm)
+__string__ `setAlgorithm(string $algorithm)`
 
-    __bool__ getBase64Encoding()
+__bool__ `getBase64Encoding()`
 
-    __bool__ setBase64Encoding(bool $bool)
+__bool__ `setBase64Encoding(bool $bool)`
 
-    __int__ listKeySize()
+__int__ `listKeySize()`
 
